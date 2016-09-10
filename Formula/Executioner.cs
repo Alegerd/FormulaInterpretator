@@ -128,7 +128,31 @@ namespace Formula
 
         public bool isInputCorrect(string input, string x, string y)
         {
-            return false;
+            int test = 0;
+            //проверка скобок
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (test >= 0)
+                {
+                    if (input[i] == '(')
+                        test++;
+                    else if (input[i] == ')')
+                        test--;
+                }
+                else
+                {
+                    InputErrorDescription = "Проверьте скобки";
+                    throw new Exception();
+                }
+            }
+            if (test != 0)
+            {
+                InputErrorDescription = "Проверьте скобки";
+                throw new Exception();
+            }
+            else return true;
+
+
         }//проверяет корректность введенных данных
 
         private void FillOperationList()

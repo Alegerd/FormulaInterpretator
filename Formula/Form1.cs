@@ -21,13 +21,16 @@ namespace Formula
 
         private void inputBtn_Click(object sender, EventArgs e)
         {
-            //if (exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text))
-            //{
-                exoner.Formula = input.Text;
-                output.Text = (exoner.FindSolution()).ToString();
-            //}
-            //else
-             //   MessageBox.Show(exoner.InputErrorDescription);
+            try
+            {
+                exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text);
+                //exoner.Formula = input.Text;
+                //Text = (exoner.FindSolution()).ToString();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(exoner.InputErrorDescription);
+            }
         }
     }
 }
