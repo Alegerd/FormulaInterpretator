@@ -24,8 +24,8 @@ namespace Formula
             try
             {
                 exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text);
-                //exoner.Formula = input.Text;
-                //Text = (exoner.FindSolution()).ToString();
+                exoner.Formula = input.Text;
+                output.Text = (exoner.FindSolution(xInput.Text, yInput.Text)).ToString();
             }
             catch (Exception)
             {

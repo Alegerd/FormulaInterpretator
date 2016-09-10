@@ -12,10 +12,9 @@ namespace Formula
         private string _formula;
         private string _inputErrorDescription;
         Tree myTree = new Tree();
+        string x;
+        string y;
         List<char> Signs = new List<char>();//список приоритета операций
-
-
-
 
 
         //Методы
@@ -67,13 +66,13 @@ namespace Formula
             return;
         }//парсинг формулы
 
-        public double Calculate(Node currentNode)
+        private double Calculate(Node currentNode)
         {
             double solution = 0;
             string operation = "none";
             Node leftNode;
             Node rightNode;
-
+    
             if (currentNode.LeftNode != null)
             {
                 leftNode = new Node();
@@ -108,6 +107,23 @@ namespace Formula
                     solution = Calculate(currentNode.LeftNode) / Calculate(currentNode.RightNode);
                     break;
                 default:
+
+                    if (currentNode.Val == "x")//проверка введенного X и подстановка его в лист дерева
+                        if (x == "")
+                        {
+                            InputErrorDescription = "Введите значение переменной X";
+                            throw new Exception();
+                        }
+                        else currentNode.Val = x;
+
+                    if (currentNode.Val == "y")//проверка введенного Y и подстановка его в лист дерева
+                        if (y == "")
+                        {
+                            InputErrorDescription = "Введите значение переменной Y";
+                            throw new Exception();
+                        }
+                        else currentNode.Val = y;
+
                     solution = Convert.ToDouble(currentNode.Val);
                     break;
             }
@@ -116,8 +132,11 @@ namespace Formula
 
         }//расчет формулы по AST-дереву
 
-        public double FindSolution()
+        public double FindSolution(string x, string y)
         {
+            this.x = x;
+            this.y = y;
+
             FillOperationList(); //вызов метода заполнения приоритета операций
             myTree.Root = new Node(); //создание корневого узла
             myTree.Root.Val = MakeTree(Formula, myTree.Root); //вызов метода создания дерева
