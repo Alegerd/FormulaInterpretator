@@ -13,6 +13,7 @@ namespace Formula
     public partial class myForm : Form
     {
         private Executioner exoner = new Executioner();
+        private FormulaPlotPanel PlotPanel = new FormulaPlotPanel();
 
         public myForm()
         {
@@ -31,6 +32,21 @@ namespace Formula
             {
                 MessageBox.Show(exoner.InputErrorDescription);
             }
+        }
+
+        private void myForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text))
+            {
+                PlotPanel.FormulaLabel.Text = input.Text;
+                PlotPanel.Show();
+            }
+            else MessageBox.Show("Некорректный Ввод");
         }
     }
 }
