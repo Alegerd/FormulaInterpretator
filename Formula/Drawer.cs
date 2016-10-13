@@ -47,7 +47,7 @@ namespace Formula
             {
                 y1 = exoner.FindSolution(x.ToString(), "");
 
-                if(x != -100)
+                if(x != -100 && !(double.IsNaN(prexY)) && !(double.IsNaN(y1)))
                 {
                     g.DrawLine(Pens.Black, (float)prevX * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)prexY * 10, (float)x * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y1 * 10);
                 }
@@ -55,7 +55,7 @@ namespace Formula
                 x2 = (float)(x + 0.1);
                 y2 = exoner.FindSolution((x+0.1).ToString(), "");
                 //g.FillEllipse(Brushes.Black, (float)x + bitmap.Width/2,  bitmap.Height / 2 - (float)y, 2,2);
-                if (!(double.IsNaN(y1) && double.IsNaN(y1))) { //область допустимых значений
+                if (!(double.IsNaN(y1) && double.IsNaN(y2))) { //область допустимых значений
                     g.DrawLine(Pens.Black, (float)x*10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y1 * 10, x2 * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y2 * 10);
                 }
                 prevX = x2;

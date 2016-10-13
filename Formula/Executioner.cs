@@ -73,11 +73,6 @@ namespace Formula
 
         }//проверяет корректность введенных данных
 
-        private void CreateGraphic()
-        {
-            
-        }//строит график
-
         private double Calculate(Node currentNode)
         {
             double solution = 0;

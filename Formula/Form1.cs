@@ -13,7 +13,6 @@ namespace Formula
     public partial class myForm : Form
     {
         private Executioner exoner = new Executioner();
-        private FormulaPlotPanel PlotPanel = new FormulaPlotPanel();
 
         public myForm()
         {
@@ -41,6 +40,7 @@ namespace Formula
 
         private void button1_Click(object sender, EventArgs e)
         {
+            FormulaPlotPanel PlotPanel = new FormulaPlotPanel();
             if (exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text))
             {
                 PlotPanel.FormulaLabel.Text = input.Text;
