@@ -33,7 +33,7 @@ namespace Formula
             g.Clear(Color.LightYellow);
             drawer.DrawAxes(g, bitmap);
             try {
-                drawer.Draw2DformulaPlot(g, bitmap, exoner, formulaLabel.Text);//передаем формулу
+                drawer.Draw2DformulaPlot(g, bitmap, exoner, label3.Text, label4.Text);//передаем формулу
             }
             catch(Exception)
             {
@@ -42,15 +42,26 @@ namespace Formula
             formulaPlotPB.Refresh();
         }
 
-        public Label FormulaLabel
+        public Label XLabel
         {
             get
             {
-                return formulaLabel;
+                return label3;
             }
             set
             {
-                formulaLabel = value;
+                label3 = value;
+            }
+        }
+        public Label YLabel
+        {
+            get
+            {
+                return label4;
+            }
+            set
+            {
+                label4 = value;
             }
         }
     }

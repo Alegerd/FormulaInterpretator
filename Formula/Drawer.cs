@@ -34,29 +34,30 @@ namespace Formula
             }
 
         }
-        public void Draw2DformulaPlot(Graphics g, Bitmap bitmap, Executioner exoner, string formula)
+        public void Draw2DformulaPlot(Graphics g, Bitmap bitmap, Executioner exoner, string formulaX, string formulaY)
         {
             double y1 = 0;
             double y2= 0;
-            float x2 = 0;
+            double x2 = 0;
+            double x1 = 0;
             double prevX = 0;
             double prexY = 0;
 
-            exoner.Formula = formula;
-            for (double x = -100; x < 100; x+=0.2)
+            for (double t = -100; t < 100; t+=0.2)
             {
-                y1 = exoner.FindSolution(x.ToString(), "");
+                y1 = exoner.FindSolution(t.ToString(), formulaY);
+                x1 = exoner.FindSolution(t.ToString(), formulaX);
 
-                if(x != -100 && !(double.IsNaN(prexY)) && !(double.IsNaN(y1)))
+                if (!(double.IsNaN(prexY)) && !(double.IsNaN(y1)))
                 {
-                    g.DrawLine(Pens.Black, (float)prevX * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)prexY * 10, (float)x * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y1 * 10);
+                    g.DrawLine(Pens.Black, (float)prevX * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)prexY * 10, (float)x1 * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y1 * 10);
                 }
 
-                x2 = (float)(x + 0.1);
-                y2 = exoner.FindSolution((x+0.1).ToString(), "");
-                //g.FillEllipse(Brushes.Black, (float)x + bitmap.Width/2,  bitmap.Height / 2 - (float)y, 2,2);
+                x2 = exoner.FindSolution((t+0.1).ToString(), formulaX);
+                y2 = exoner.FindSolution((t+0.1).ToString(), formulaY);
+
                 if (!(double.IsNaN(y1) && double.IsNaN(y2))) { //область допустимых значений
-                    g.DrawLine(Pens.Black, (float)x*10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y1 * 10, x2 * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y2 * 10);
+                    g.DrawLine(Pens.Black, (float)x1*10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y1 * 10, (float)x2 * 10 + bitmap.Width / 2, bitmap.Height / 2 - (float)y2 * 10);
                 }
                 prevX = x2;
                 prexY = y2;

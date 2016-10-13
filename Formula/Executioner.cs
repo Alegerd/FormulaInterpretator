@@ -12,17 +12,15 @@ namespace Formula
         private string _formula;
         private string _inputErrorDescription;
         Tree myTree = new Tree();
-        string x;
-        string y;
+        string t;
         private float[,] func = new float[10,10];
         List<char> Signs = new List<char>();//список приоритета операций
 
 
         //Методы
-        public double FindSolution(string x, string y)
+        public double FindSolution(string t, string Formula)
         {
-            this.x = x;
-            this.y = y;
+            this.t = t;
             double result;
 
             FillOperationList(); //вызов метода заполнения приоритета операций
@@ -43,7 +41,7 @@ namespace Formula
 
         }//главный метод
 
-        public bool isInputCorrect(string input, string x, string y)
+        public bool isInputCorrect(string input)
         {
             if (input == "") return false;//проверка на пустоту
             int test = 0;
@@ -114,23 +112,8 @@ namespace Formula
                     solution = Calculate(currentNode.LeftNode) / Calculate(currentNode.RightNode);
                     break;
                 default:
-
-                    if (currentNode.Val == "x")//проверка введенного X и подстановка его в лист дерева
-                        if (x == "")
-                        {
-                            InputErrorDescription = "Введите значение переменной X";
-                            throw new Exception();
-                        }
-                        else currentNode.Val = x;
-
-                    if (currentNode.Val == "y")//проверка введенного Y и подстановка его в лист дерева
-                        if (y == "")
-                        {
-                            InputErrorDescription = "Введите значение переменной Y";
-                            throw new Exception();
-                        }
-                        else currentNode.Val = y;
-
+                    if (currentNode.Val == "t")//проверка введенного X и подстановка его в лист дерева
+                        currentNode.Val = t;
                     solution = Convert.ToDouble(currentNode.Val);
                     break;
             }

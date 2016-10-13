@@ -19,20 +19,6 @@ namespace Formula
             InitializeComponent();
         }
 
-        private void inputBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text);
-                exoner.Formula = input.Text;
-                output.Text = (exoner.FindSolution(xInput.Text, yInput.Text)).ToString();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(exoner.InputErrorDescription);
-            }
-        }
-
         private void myForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
@@ -41,9 +27,10 @@ namespace Formula
         private void button1_Click(object sender, EventArgs e)
         {
             FormulaPlotPanel PlotPanel = new FormulaPlotPanel();
-            if (exoner.isInputCorrect(input.Text, xInput.Text, yInput.Text))
+            if (exoner.isInputCorrect(xInput.Text) && exoner.isInputCorrect(yInput.Text))
             {
-                PlotPanel.FormulaLabel.Text = input.Text;
+                PlotPanel.XLabel.Text = xInput.Text;
+                PlotPanel.YLabel.Text = yInput.Text;
                 PlotPanel.Show();
             }
             else MessageBox.Show("Некорректный Ввод");
