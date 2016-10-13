@@ -13,7 +13,7 @@ namespace Formula
         private string _inputErrorDescription;
         Tree myTree = new Tree();
         string t;
-        private float[,] func = new float[10,10];
+        private float[,] func = new float[10, 10];
         List<char> Signs = new List<char>();//список приоритета операций
 
 
@@ -21,22 +21,23 @@ namespace Formula
         public double FindSolution(string t, string Formula)
         {
             this.t = t;
+
             double result;
 
             FillOperationList(); //вызов метода заполнения приоритета операций
-                    myTree.Root = new Node(); //создание корневого узла
+            myTree.Root = new Node(); //создание корневого узла
 
-                    try
-                    {
-                        Formula = BracketDestroyer(Formula);
-                        myTree.Root.Val = MakeTree(Formula, myTree.Root); //вызов метода создания дерева
-                        result = Calculate(myTree.Root);
-                    }
-                    catch (Exception)
-                    {
-                        InputErrorDescription = "Некорректный ввод";
-                        throw new Exception();
-                    }
+            try
+            {
+                Formula = BracketDestroyer(Formula);
+                myTree.Root.Val = MakeTree(Formula, myTree.Root); //вызов метода создания дерева
+                result = Calculate(myTree.Root);
+            }
+            catch (Exception)
+            {
+                InputErrorDescription = "Некорректный ввод";
+                throw new Exception();
+            }
             return result;
 
         }//главный метод
@@ -96,7 +97,6 @@ namespace Formula
             switch (operation)
             {
                 case "+":
-
                     solution = Calculate(currentNode.LeftNode) + Calculate(currentNode.RightNode);
                     break;
                 case "-":
@@ -111,9 +111,17 @@ namespace Formula
                 case "/":
                     solution = Calculate(currentNode.LeftNode) / Calculate(currentNode.RightNode);
                     break;
+                case "s":
+                    solution = Math.Sin(Calculate(currentNode.RightNode));
+                    break;
+                case "c":
+                    solution = Math.Cos(Calculate(currentNode.RightNode));
+                    break;
                 default:
-                    if (currentNode.Val == "t")//проверка введенного X и подстановка его в лист дерева
+                    if (currentNode.Val == "t")
+                    {
                         currentNode.Val = t;
+                    }
                     solution = Convert.ToDouble(currentNode.Val);
                     break;
             }
@@ -151,7 +159,7 @@ namespace Formula
 
         private void ParseFormula(string formula, ref string leftPart, ref string rightPart, ref string value)
         {
-            for (int j = 0; j < Signs.Count(); j++)//проход по списку приоритетных операций
+            for (int j = 0; j < Signs.Count() - 2; j++)//проход по списку приоритетных операций
             {
                 for (int i = 0; i < formula.Length; i++)
                 {
@@ -160,7 +168,7 @@ namespace Formula
                         value = Signs[j] + "";
                         if (i == 0 && j == 1)//проверка на отрицательное число
                         {
-                            leftPart = "0";
+                            value = "_";
                             rightPart = formula.Substring(i + 1, formula.Length - i - 1);
                             return;
                         }
@@ -170,6 +178,20 @@ namespace Formula
                             rightPart = formula.Substring(i + 1, formula.Length - i - 1);
                             return;
                         }
+                    }
+                }
+
+            }
+
+            for (int j = 5; j < Signs.Count(); j++)//проход по списку приоритетных операций
+            {
+                for (int i = 0; i < formula.Length; i++)
+                {
+                    value = Signs[j] + "";
+                    if (formula[i] == Signs[j])
+                    {
+                        rightPart = formula.Substring(i + 1, formula.Length - i - 1);
+                        return;
                     }
                 }
 
@@ -193,7 +215,7 @@ namespace Formula
             }
 
 
-            while(bracketCounter != 0)
+            while (bracketCounter != 0)
             {
                 for (int i = 0; i < formula.Length; i++)
                 {
@@ -217,7 +239,7 @@ namespace Formula
                         Tree bracketTree = new Tree();
                         bracketTree.Root = new Node();
                         bracketTree.Root.Val = MakeTree(formula.Substring(firstPoint + 1, lastPoint - firstPoint - 1), bracketTree.Root);
-                        formula = leftPart + Calculate(bracketTree.Root).ToString() + rightPart;
+                        formula = leftPart + Calculate(bracketTree.Root) + rightPart;
                         break;
                     }
                 }
@@ -230,9 +252,11 @@ namespace Formula
         {
             Signs.Add('+');
             Signs.Add('-');
-            Signs.Add('^');
             Signs.Add('*');
             Signs.Add('/');
+            Signs.Add('^');
+            Signs.Add('s');
+            Signs.Add('c');
         }//заполнение списка приоритетов операций
 
         //Свойства
